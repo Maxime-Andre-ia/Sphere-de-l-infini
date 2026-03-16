@@ -10,7 +10,8 @@ export default class niveau1 extends Phaser.Scene {
     this.load.image("img_item", "src/assets/star.png"); // L'item pour inverser la gravité
     this.load.image("img_piece", "src/assets/coin.png"); // L'image d'une seule pièce
     this.load.image("img_alerte", "src/assets/warning.png"); // Le panneau d'alerte du missile
-    
+    this.load.audio("sin_missile", "src/assets/bruitmissile.WAV");
+    this.load.audio("sin_piece", "src/assets/bruitpiece.WAV")
     // --- CHARGEMENT DU MISSILE ANIMÉ (Spritesheet) ---
     // Au lieu d'une simple image, on découpe l'image du missile pour pouvoir l'animer.
     // ATTENTION : Pense bien à remplacer 32 et 16 par la vraie taille (largeur et hauteur)
@@ -19,9 +20,6 @@ export default class niveau1 extends Phaser.Scene {
         frameWidth: 32, 
         frameHeight: 16 
 
-    
-    this.load.audio("sin_missile", "src/assets/bruitmissile.WAV");
-    this.load.audio("sin_piece", "src/assets/bruitpiece.WAV")
     });
 
     // --- PRÉPARATION POUR TILED (La map de tes copains) ---
