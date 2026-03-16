@@ -18,6 +18,10 @@ export default class niveau1 extends Phaser.Scene {
     this.load.spritesheet("img_missile", "src/assets/missile.png", { 
         frameWidth: 32, 
         frameHeight: 16 
+
+    
+    this.load.audio("sin_missile", "src/assets/bruitmissile.WAV");
+    this.load.audio("sin_piece", "src/assets/bruitpiece.WAV")
     });
 
     // --- PRÉPARATION POUR TILED (La map de tes copains) ---
@@ -137,9 +141,19 @@ export default class niveau1 extends Phaser.Scene {
         callbackScope: this,
         loop: true
     });
+
+    this.missileSound=this.sound.add("sin_missile", { volume: 0.5});
+    this.pieceSound=this.sound.add("sin_piece", { volume: 0.5})
+
+    // Variable pour savoir si le joueur a perdu
+    this.isGameOver = false;
   }
   
   update() {
+
+    if (this.isGameOver === true) {
+        return; // Le mot-clé 'return' arrête la lecture de la fonction ici.
+    }
     // --- 1. COURSE AUTOMATIQUE ET CIEL ---
     // À chaque frame, on force le joueur à avancer à 200 pixels/seconde vers la droite
     this.player.setVelocityX(200); 
@@ -297,11 +311,15 @@ export default class niveau1 extends Phaser.Scene {
     // On augmente le score et on met à jour le texte
     this.scorePieces += 1;
     this.textePieces.setText("Pièces : " + this.scorePieces);
+
+    this.sonPiece.play();
   }
 
   preparerMissile() {
     // 1. On cible la hauteur actuelle du joueur (Là où le missile arrivera !)
     let cibleY = this.player.y;
+
+    this.missileSound.play();
     
     // 2. On crée l'image d'alerte tout à droite de l'écran (X = 750)
     // setScrollFactor(0) permet qu'elle suive le joueur pendant qu'elle clignote
@@ -338,6 +356,59 @@ export default class niveau1 extends Phaser.Scene {
     missile.anims.play("anim_missile_vole", true);
   }
 
+  afficherGameOver() {
+    // 1. Un fond noir semi-transparent pour assombrir le jeu
+    // Paramètres : X, Y, Largeur, Hauteur, Couleur (0x000000 = noir), Opacité (0.7)
+    let fondSombre = this.add.rectangle(400, 300, 800, 600, 0x000000, 0.7).setScrollFactor(0);
+
+    // 2. Le gros titre rouge
+    this.add.text(400, 150, "GAME OVER", { 
+        fontSize: '64px', 
+        fill: '#ff0000', 
+        fontStyle: 'bold' 
+    }).setOrigin(0.5).setScrollFactor(0); // setOrigin(0.5) permet de centrer le texte parfaitement
+
+    // 3. Le récapitulatif des scores
+    this.add.text(400, 250, "Distance parcourue : " + this.scoreDistance + " m", { 
+        fontSize: '32px', 
+        fill: '#ffffff' 
+    }).setOrigin(0.5).setScrollFactor(0);
+
+    this.add.text(400, 320, "Pièces récoltées : " + this.scorePieces, { 
+        fontSize: '32px', 
+        fill: '#FFD700' 
+    }).setOrigin(0.5).setScrollFactor(0);
+
+    // 4. LE BOUTON REJOUER
+    let boutonRejouer = this.add.text(400, 450, " REJOUER ", { 
+        fontSize: '40px', 
+        fill: '#ffffff', 
+        backgroundColor: '#4a4a4a', // Un fond gris pour faire un vrai bouton
+        padding: { x: 20, y: 10 }   // De l'espace autour du texte
+    })
+    .setOrigin(0.5)
+    .setScrollFactor(0)
+    .setInteractive({ useHandCursor: true }); // Transforme la souris en petite main au survol !
+
+    // 5. LES EFFETS DU BOUTON
+    // Quand on passe la souris dessus (Hover)
+    boutonRejouer.on('pointerover', () => { 
+        boutonRejouer.setStyle({ backgroundColor: '#ff0000' }); // Devient rouge
+    });
+
+    // Quand on enlève la souris
+    boutonRejouer.on('pointerout', () => { 
+        boutonRejouer.setStyle({ backgroundColor: '#4a4a4a' }); // Redevient gris
+    });
+
+    // QUAND ON CLIQUE : LA MAGIE OPÈRE !
+    boutonRejouer.on('pointerdown', () => {
+        console.log("Relance du niveau...");
+        // Cette commande Phaser détruit tout et relance la fonction create() de zéro !
+        this.scene.restart(); 
+    });
+  }
+
   toucherMissile(player, missile) {
     // 1. On met le jeu en pause (arrête la physique instantanément)
     this.physics.pause();
@@ -347,9 +418,15 @@ export default class niveau1 extends Phaser.Scene {
     
     // 3. On arrête l'animation du joueur
     this.player.anims.stop();
+
+    // On arrête aussi les événements de temps (comme l'apparition des missiles)
+    this.time.removeAllEvents();
     
     // Pour l'instant on se contente de l'afficher dans la console
     console.log("BOUM ! Game Over. Distance : " + this.scoreDistance + " m");
+
+    // On affiche notre bel écran de fin !
+    this.afficherGameOver();
     
     // Plus tard : tu pourras rajouter du code ici pour recharger la scène (this.scene.restart())
     // ou afficher un écran de Game Over.
