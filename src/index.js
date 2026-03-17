@@ -18,7 +18,7 @@ var config = {
     }
   },
   // 3. On déclare nos 4 scènes dans l'ordre (la première de la liste est celle qui se lance au démarrage)
-  scene: [selection, niveau1, niveau2, niveau3, GameOver] 
+  scene: [ niveau1, niveau2, niveau3, GameOver] 
 };
 
 // 4. On lance le jeu

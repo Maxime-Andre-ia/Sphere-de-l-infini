@@ -7,17 +7,18 @@ export default class selection extends Phaser.Scene {
 
   preload() {
     // CORRECTION : J'ai enlevé les "src/" pour les chemins d'accès !
-    this.load.image("img_ciel", "assets/sky.png");
-    this.load.image("img_plateforme", "assets/platform.png");
-    this.load.spritesheet("img_perso", "assets/dude.png", {
-      frameWidth: 32,
-      frameHeight: 48
-    });
-    this.load.image("img_porte1", "assets/door1.png");
-    this.load.image("img_porte2", "assets/door2.png");
-    this.load.image("img_porte3", "assets/door3.png");
-    this.load.image("img_balle", "assets/star.png");
-    this.load.image("img_bombe", "assets/bomb.png");
+    // On remplace "dude.png" par le coffre
+this.load.image("img_perso", "src/assets/coffrec.png"); 
+
+// On remplace "sky.png" par un vrai décor
+this.load.image("img_ciel", "src/assets/décors2d.png");
+
+// S'il y a des lignes pour les bombes, étoiles ou portes, remplace-les aussi !
+this.load.image("img_bombe", "src/assets/feu_mortelm.png"); 
+this.load.image("img_item", "src/assets/image_inversiond.png");
+this.load.image("img_porte1", "src/assets/bout_laserm.png");
+this.load.image("img_porte2", "src/assets/bout_laserm.png");
+this.load.image("img_porte3", "src/assets/bout_laserm.png");
     
   }
 
