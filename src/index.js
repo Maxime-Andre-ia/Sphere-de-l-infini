@@ -14,7 +14,7 @@ var config = {
     default: "arcade",
     arcade: {
       gravity: { y: 300 },
-      debug: false 
+      debug: true 
     }
   },
   // 3. On déclare nos 4 scènes dans l'ordre (la première de la liste est celle qui se lance au démarrage)
