@@ -6,8 +6,33 @@ export default class niveau1 extends Phaser.Scene {
     }
 
     preload() {
+        //map 2 mathis
+        this.load.tilemapTiledJSON("map_ahhh", "src/assets/Map_finale_ahhh.tmj");
+        this.load.image("img_background", "src/assets/tileset_background.webp");
+        this.load.image("img_arbre", "src/assets/tileset_arbre.png");
+        this.load.image("img_cat_ahhh", "src/assets/tileset_cat.png");
+        this.load.image("img_67", "src/assets/tileset_67.png");
+        this.load.image("img_rock", "src/assets/tileset_rock.png");
+        this.load.image("img_monster", "src/assets/tileset_monster.png");
+        this.load.image("img_malboro", "src/assets/tileset_clope_de_merde.png");
+        this.load.image("img_good", "src/assets/tileset_good.png");
+        this.load.image("img_fortnite", "src/assets/tileset_fortnite.png");
+        this.load.image("img_decor_bleu", "src/assets/tileset_decor_bleu.png");
+        this.load.image("img_mur", "src/assets/tileset_mur.png");
+        this.load.image("img_rocket", "src/assets/tileset_rocket.png");
+        this.load.image("img_djilsi", "src/assets/tileset_djilsi.png");
+        this.load.image("img_barriere1", "src/assets/tileset_barriere1.png");
+        this.load.image("img_barriere2", "src/assets/tileset_barriere2.png");
+        this.load.image("img_barriere3", "src/assets/tileset_barriere3.png");
+        this.load.image("img_mrincredible_stg", "src/assets/tileset_mrincrediblestages.png");
+        this.load.image("img_gothgirl", "src/assets/tileset_gothgirl.png");
+        this.load.image("img_panneau", "src/assets/tileset_panneau.png");
+        this.load.image("img_ahhh", "src/assets/tileset_ahhh.png");
+        this.load.image("img_butt", "src/assets/tileset_butt.png");
+        this.load.image("img_monster2", "src/assets/tileset_monster.png");
+        this.load.image("img_benoit_darties", "src/assets/tileset_benoit_darties.png");
 
-        // MAP de votre ami
+        // map 1 Mathis
         this.load.tilemapTiledJSON("map_mathis", "src/assets/MAP_FINALE_1.tmj");
         this.load.image("img_decor_gris", "src/assets/tileset_1.png");
         this.load.image("img_spike", "src/assets/laser_spikes_idle.png");
@@ -25,6 +50,7 @@ export default class niveau1 extends Phaser.Scene {
         this.load.image("img_mrincredible_10", "src/assets/Phase_10.png");
         this.load.image("img_cat", "src/assets/yippie-first-time-clearing-v0-bj1ju9p65mub1-2.png");
 
+        // map 2 quentin
         this.load.tilemapTiledJSON("map_hassoul", "src/assets/lab2._hassoultmj.tmj");
         this.load.image("img_dungeon", "src/assets/Dungeon Tile Set2.png");
 
@@ -44,100 +70,98 @@ export default class niveau1 extends Phaser.Scene {
         this.load.image("img_level_tileset", "src/assets/level_tileset.png");
         this.load.image("img_laser4", "src/assets/laser4.png");
 
+        //map 1 quentin
         this.load.tilemapTiledJSON("map_quentin", "src/assets/lab.tmj");
 
         this.load.audio("sin_missile", "src/assets/bruitmissile.wav");
         this.load.audio("sin_piece", "src/assets/bruitpiece.wav");
     }
 
-    create() {
-        this.physics.world.createDebugGraphic();
+     
+  create() {
+    // 1. MONDE ET VARIABLES DE BASE
+    this.physics.world.setBounds(0, 0, Number.MAX_SAFE_INTEGER, 704);
+    this.prochainX = 0;
+    this.listeMaps = ["map_quentin", "map_hassoul", "map_mathis", "map_ahhh"];
+    this.chunksActifs = [];
+    this.isGameOver = false;
+    this.isGravityInverted = false;
+    this.puissanceJetpack = -200;
+    this.scorePieces = 0;
+    this.scoreDistance = 0;
 
-        this.player = this.physics.add.sprite(300, 300, "img_perso").setDepth(8);
-        this.player.setCollideWorldBounds(true);
-        // Définit les limites du monde (largeur très grande, hauteur fixe)
-        this.physics.world.setBounds(0, 0, Number.MAX_SAFE_INTEGER, 704);
+    // 2. LE JOUEUR (On le crée AVANT les chunks pour les collisions)
+    this.player = this.physics.add.sprite(100,250, "img_perso").setDepth(8);
+    this.player.setCollideWorldBounds(true);
+    this.player.setGravityY(800);
+    this.player.body.setSize(15, 30);
+    this.player.body.setOffset(15, 45);
+
+    // 3. ANIMATIONS
+    if (!this.anims.exists('courir')) { // On vérifie si elle existe déjà
         this.anims.create({
             key: 'courir',
             frames: this.anims.generateFrameNumbers('img_perso', { start: 5, end: 8 }),
             frameRate: 10,
             repeat: -1
         });
-        this.player.play('courir');
-        this.player.body.setSize(15, 30);
-        this.player.body.setOffset(15, 45);
-
-        this.motifsPieces = [
-            [
-                [1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1]
-            ]
-        ];
-
-        this.groupePieces = this.physics.add.group({ allowGravity: false });
-        this.physics.add.overlap(this.player, this.groupePieces, this.collecterPiece, null, this);
-
-        this.groupeMissiles = this.physics.add.group({ allowGravity: false });
-        this.physics.add.overlap(this.player, this.groupeMissiles, this.toucherMissile, null, this);
-
-        this.prochainX = 0;
-        this.listeMaps = ["map_quentin", "map_hassoul", "map_mathis"];
-        this.chunksActifs = [];
-
-        this.ajouterChunk();
-        this.ajouterChunk();
-        this.ajouterChunk();
-        this.ajouterChunk();
-        this.ajouterChunk();
-        this.ajouterChunk();
-
-        this.clavier = this.input.keyboard.createCursorKeys();
-        this.cameras.main.startFollow(this.player);
-
-        this.isGravityInverted = false;
-        this.puissanceJetpack = -200;
-        this.player.setGravityY(800);
-
-        this.itemInversion = this.physics.add.sprite(800, 300, "img_item");
-        this.itemInversion.body.allowGravity = false;
-        this.physics.add.overlap(this.player, this.itemInversion, this.inverserGravite, null, this);
-        this.itemInversion.setDepth(15);
-
-        this.scorePieces = 0;
-        this.scoreDistance = 0;
-
-        this.textePieces = this.add.text(16, 16, "Pièces : 0", { fontSize: '24px', fill: '#FFD700' }).setScrollFactor(0).setDepth(10);
-        this.texteDistance = this.add.text(16, 50, "Distance : 0 m", { fontSize: '24px', fill: '#FFFFFF' }).setScrollFactor(0).setDepth(10);
-
-        this.time.addEvent({
-            delay: 10000,
-            callback: this.preparerMissile,
-            callbackScope: this,
-            loop: true
-        });
-
-        this.missileSound = this.sound.add("sin_missile", { volume: 0.5 });
-        this.pieceSound = this.sound.add("sin_piece", { volume: 0.5 });
-
-        this.isGameOver = false;
-
-        this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
-        this.particlesJetpack = this.add.particles(0, 0, "img_star", {
-            speed: { min: 50, max: 100 },
-            angle: { min: 80, max: 100 },
-            scale: { start: 0.8, end: 0 },
-            lifespan: 800,
-            frequency: 50,
-            emitting: false
-        }).setDepth(15);
     }
+    this.player.play('courir');
+
+    // 4. GROUPES (Missiles, Pièces, etc.)
+    this.groupePieces = this.physics.add.group({ allowGravity: false });
+    this.groupeMissiles = this.physics.add.group({ allowGravity: false });
+    this.motifsPieces = [[[1,1,1,1,1,1,1],[1,1,1,1,1,1,1]]];
+
+    // 5. INTERFACE (UI)
+    this.textePieces   = this.add.text(16, 16, "Pièces : 0",    { fontSize: '24px', fill: '#FFD700' }).setScrollFactor(0).setDepth(10);
+    this.texteDistance = this.add.text(16, 50, "Distance : 0 m", { fontSize: '24px', fill: '#FFFFFF' }).setScrollFactor(0).setDepth(10);
+
+    // 6. GÉNÉRATION DU MONDE (Les chunks)
+    // Maintenant que this.player existe, ajouterChunk() ne plantera plus
+    this.ajouterChunk(); 
+    this.ajouterChunk();
+    this.ajouterChunk();
+    this.ajouterChunk();
+    this.ajouterChunk();
+    this.ajouterChunk();
+
+    // 7. COLLISIONS ET OVERLAPS
+    this.physics.add.overlap(this.player, this.groupePieces, this.collecterPiece, null, this);
+    this.physics.add.overlap(this.player, this.groupeMissiles, this.toucherMissile, null, this);
+
+    // Item d'inversion
+    this.itemInversion = this.physics.add.sprite(800, 300, "img_item").setDepth(15);
+    this.itemInversion.body.allowGravity = false;
+    this.physics.add.overlap(this.player, this.itemInversion, this.inverserGravite, null, this);
+
+    // 8. CONTRÔLES ET CAMÉRA
+    this.clavier = this.input.keyboard.createCursorKeys();
+    this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    this.cameras.main.startFollow(this.player);
+
+    // 9. SONS ET EFFETS
+    this.missileSound = this.sound.add("sin_missile", { volume: 0.5 });
+    this.pieceSound   = this.sound.add("sin_piece",   { volume: 0.5 });
+
+    this.particlesJetpack = this.add.particles(0, 0, "img_star", {
+        speed: { min: 50, max: 100 },
+        angle: { min: 80, max: 100 },
+        scale: { start: 0.8, end: 0 },
+        lifespan: 800,
+        frequency: 50,
+        emitting: false
+    }).setDepth(15);
+
+    // 10. TIMERS
+    this.time.addEvent({ delay: 10000, callback: this.preparerMissile, callbackScope: this, loop: true });
+}
 
     // ✅ update() restauré — il avait disparu de ton fichier !
     update() {
         if (this.isGameOver === true) return;
 
-        let vitesse = 200 + Math.floor(this.player.x / 500) * 4;
+        let vitesse = 200 + Math.floor(this.player.x / 500) * 2;
         this.player.setVelocityX(vitesse);
 
         if (this.clavier.up.isDown) {
@@ -253,6 +277,50 @@ export default class niveau1 extends Phaser.Scene {
             nomFond = "Background";
             nomSol = "Obstacle_pas_mortel";
             nomMortel = "Background_mortel";
+        } else if (mapAleatoire === "map_ahhh") {
+            let ts_background = map.addTilesetImage("tileset_background", "img_background");
+            let ts_arbre = map.addTilesetImage("tileset_arbre", "img_arbre");
+            let ts_cat = map.addTilesetImage("tileset_cat", "img_cat_ahhh");
+            let ts_67 = map.addTilesetImage("tileset_67", "img_67");
+            let ts_rock = map.addTilesetImage("tileset_rock", "img_rock");
+            let ts_monster = map.addTilesetImage("tileset_monster", "img_monster");
+            let ts_malboro = map.addTilesetImage("tileset_malboro", "img_malboro");
+            let ts_good = map.addTilesetImage("tileset_good", "img_good");
+            let ts_fortnite = map.addTilesetImage("tileset_fortnite", "img_fortnite");
+            let ts_decor_bleu = map.addTilesetImage("tileset_decor_bleu", "img_decor_bleu");
+            let ts_mur = map.addTilesetImage("tileset_mur", "img_mur");
+            let ts_rocket = map.addTilesetImage("tileset_rocket", "img_rocket");
+            let ts_djilsi = map.addTilesetImage("tileset_djilsi", "img_djilsi");
+            let ts_barriere1 = map.addTilesetImage("tileset_barriere1", "img_barriere1");
+            let ts_barriere2 = map.addTilesetImage("tileset_barriere2", "img_barriere2");
+            let ts_barriere3 = map.addTilesetImage("tileset_barrire3", "img_barriere3");
+            let ts_mrstages = map.addTilesetImage("tileset_mrincrediblestages", "img_mrincredible_stg");
+            let ts_gothgirl = map.addTilesetImage("tileset_gothgirl", "img_gothgirl");
+            let ts_panneau = map.addTilesetImage("tileset_panneau", "img_panneau");
+            let ts_ahhh = map.addTilesetImage("tileset_ahhh", "img_ahhh");
+            let ts_butt = map.addTilesetImage("tileset_butt", "img_butt");
+            let ts_monster2 = map.addTilesetImage("tileset_monster", "img_monster2");
+            let ts_benoit = map.addTilesetImage("tileset_benoit_darties", "img_benoit_darties");
+
+            tousLesTilesets = [
+                ts_background, ts_arbre, ts_cat, ts_67, ts_rock,
+                ts_monster, ts_malboro, ts_good, ts_fortnite, ts_decor_bleu,
+                ts_mur, ts_rocket, ts_djilsi, ts_barriere1, ts_barriere2,
+                ts_barriere3, ts_mrstages, ts_gothgirl, ts_panneau, ts_ahhh,
+                ts_butt, ts_monster2, ts_benoit
+            ];
+
+            // Calques décoratifs (visuels uniquement, pas de collision)
+            map.createLayer("Background front", tousLesTilesets, this.prochainX, 0)?.setDepth(2);
+            map.createLayer("Background incredible", tousLesTilesets, this.prochainX, 0)?.setDepth(2);
+            map.createLayer("background front 2", tousLesTilesets, this.prochainX, 0)?.setDepth(2);
+            map.createLayer("67777", tousLesTilesets, this.prochainX, 0)?.setDepth(2);
+
+            nomFond = "Background";
+            nomSol = null; // seul calque avec des tiles (obstacles + sol)
+            nomMortel = "Trucs qui tuent";              // "Armes qui tuent" est vide dans cette map
+
+            
         }
 
         let largeurMap = map.widthInPixels;
@@ -324,6 +392,27 @@ export default class niveau1 extends Phaser.Scene {
             calqueSol.setCollisionByExclusion([-1], true);
             let colliderSol = this.physics.add.collider(this.player, calqueSol);
             collidersChunk.push(colliderSol);
+
+            // ✅ Pour map_ahhh : le sol tue aussi
+            if (mapAleatoire === "map_ahhh") {
+                let overlapMortelAhhh = this.physics.add.overlap(
+                    this.player,
+                    calqueSol,
+                    () => {
+                        if (!this.isGameOver) {
+                            this.isGameOver = true;
+                            this.physics.pause();
+                            this.player.setTint(0xff0000);
+                            this.player.anims.stop();
+                            this.time.removeAllEvents();
+                            this.afficherGameOver();
+                        }
+                    },
+                    (player, tile) => tile.index !== -1 && tile.tileset !== null,
+                    this
+                );
+                collidersChunk.push(overlapMortelAhhh);
+            }
         }
 
         this.chunksActifs.push({
@@ -361,23 +450,9 @@ export default class niveau1 extends Phaser.Scene {
     }
 
     preparerMissile() {
-        let cibleY = this.player.y;
-
-        let alerte = this.add.image(750, cibleY, "img_alerte").setScrollFactor(0);
-
-        this.tweens.add({
-            targets: alerte,
-            alpha: 0,
-            duration: 200,
-            ease: 'Linear',
-            yoyo: true,
-            repeat: 5,
-            onComplete: () => {
-                alerte.destroy();
-                this.lancerMissile(cibleY);
-            }
-        });
-    }
+    let cibleY = this.player.y;
+    this.lancerMissile(cibleY);
+}
 
     lancerMissile(yPosition) {
         let spawnX = this.cameras.main.scrollX + 850;
