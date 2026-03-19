@@ -6,171 +6,109 @@ export default class niveau1 extends Phaser.Scene {
     }
 
     preload() {
-        // =========================================================================
-        // 1. CHARGEMENT DES ASSETS (On utilise UNIQUEMENT tes vrais fichiers)
-        // =========================================================================
 
-        // --- ON REMPLACE LES ANCIENS ASSETS PAR CEUX DE TES POTES ---
-        // Comme on n'a plus l'image "dude.png", on utilise le coffre en guise de personnage pour tester !
+        // MAP de votre ami
+        this.load.tilemapTiledJSON("map_mathis", "src/assets/MAP_FINALE_1.tmj");
+        this.load.image("img_decor_gris", "src/assets/tileset_1.png");
+        this.load.image("img_spike", "src/assets/laser_spikes_idle.png");
+        this.load.image("img_decor_vert", "src/assets/preview-export-x9.png");
+        this.load.image("img_laser_bleu", "src/assets/texture_laser.png");
+        this.load.image("img_laser_multi", "src/assets/beams.png");
+        this.load.image("img_nucleaire", "src/assets/full decor tiles.png");
+        this.load.image("img_tuyau_rouge", "src/assets/1.png");
+        this.load.image("img_tuyau_fer", "src/assets/3.png");
+        this.load.image("img_pylone", "src/assets/4.png");
+        this.load.image("img_coffre", "src/assets/Chest.png");
+        this.load.image("img_laser_violet", "src/assets/13.png");
+        this.load.image("img_flamme_orange", "src/assets/37.png");
+        this.load.image("img_mrincredible", "src/assets/MrIncredibleBecomingCanny.png");
+        this.load.image("img_mrincredible_10", "src/assets/Phase_10.png");
+        this.load.image("img_cat", "src/assets/yippie-first-time-clearing-v0-bj1ju9p65mub1-2.png");
+
+        this.load.tilemapTiledJSON("map_hassoul", "src/assets/lab2._hassoultmj.tmj");
+        this.load.image("img_dungeon", "src/assets/Dungeon Tile Set2.png");
+
         this.load.spritesheet("img_perso", "src/assets/dudebase2.png", {
-            frameWidth: 423 / 9,   // largeur d'une frame
-            frameHeight: 102  // hauteur d'une frame
-        });    // On remplace le ciel classique par un des décors de ton équipe
+            frameWidth: 423 / 9,
+            frameHeight: 102
+        });
         this.load.image("img_piqueM", "src/assets/piqueM.png");
-        // Les objets interactifs
-        this.load.image("img_item", "src/assets/image_inversionD.png"); // L'item pour inverser la gravité
-        this.load.image("img_piece", "src/assets/coinD.png"); // L'image d'une pièce à ramasser
+        this.load.image("img_item", "src/assets/image_inversionD.png");
+        this.load.image("img_piece", "src/assets/coinD.png");
         this.load.spritesheet("img_missile", "src/assets/image_missile.png", {
             frameWidth: 320 / 5,
             frameHeight: 320 / 4
         });
-        this.load.image("img_star", "src/assets/star.png")
-        // --- LES TILESETS POUR LA MAP (Les briques de construction) ---
-        // Ce sont les images qui ont été utilisées dans le logiciel Tiled pour dessiner les niveaux
-        this.load.image("img_bout_laser", "src/assets/bout_laserM.png");
+        this.load.image("img_star", "src/assets/star.png");
+        this.load.image("img_bout_laser", "src/assets/bout_laserm.png");
         this.load.image("img_level_tileset", "src/assets/level_tileset.png");
         this.load.image("img_laser4", "src/assets/laser4.png");
 
-        // =========================================================================
-        // 3. CHARGEMENT DES MAPS JSON DE TES POTES (Les plans de construction)
-        // =========================================================================
-        //==================================
-        // Chargement de la première MAP
-        // =================================
-        this.load.tilemapTiledJSON("map_niveau2", "src/assets/lab2.tmj");
-        this.load.tilemapTiledJSON("map_quentin", "src/assets/lab1.json");
-        //==================================
-        // Chargement de la deuxième MAP
-        // =================================
-        this.load.image("img_tuyauxRouge", "src/assets/1.png");
-        this.load.image("img_tuyauxGris", "src/assets/3.png");
-        this.load.image("img_pilone", "src/assets/4.png");
-        this.load.image("img_laserViolet", "src/assets/13.png");
-        this.load.image("img_laserOrange", "src/assets/37.png");
-        this.load.image("img_laserMulticolor", "src/assets/beams.png");
-        this.load.image("img_coffre", "src/assets/Chest.png");
-        this.load.image("img_decordmat1", "src/assets/full decor tiles.png");
-        this.load.image("img_piquemat1", "src/assets/laser_spikes_idle.png");
-        this.load.image("img_MrIncrediblecontent", "src/assets/Mr_Incredible_Becoming_Canny_Phase_4.png");
-        this.load.image("img_etat", "src/assets/MrIncredibleBecomingCanny.png");
-        this.load.image("img_MrIncredibleDivin", "src/assets/Phase_10.png");
-        this.load.image("img_decordmat2", "src/assets/preview-export-x9.png");
-        this.load.image("img_laserbleu", "src/assets/texture_laser.png");
-        this.load.image("img_decordmat3", "src/assets/Tileset.png");
-        this.load.image("img_decordmat4", "src/assets/tileset_1.png");
-        this.load.image("img_cat", "src/assets/yippie-first-time-clearing-v0-bj1ju9p65mub1-2.png");
-        
+        this.load.tilemapTiledJSON("map_quentin", "src/assets/lab.tmj");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // --- SONS --- 
-        // Ils feront des erreurs 404 dans la console si tu ne les as pas dans ton dossier, 
-        // mais ça ne fait pas planter le jeu !
         this.load.audio("sin_missile", "src/assets/bruitmissile.wav");
         this.load.audio("sin_piece", "src/assets/bruitpiece.wav");
     }
 
     create() {
-        // =========================================================================
-        // 2. CRÉATION DU MONDE ET DES OBJETS (S'exécute 1 seule fois au début)
-        // =========================================================================
-
-        // --- 1. LE FOND INFINI ---
-        // setScrollFactor(0) "colle" l'image à la caméra pour qu'elle suive le joueur. 
         this.physics.world.createDebugGraphic();
 
-
-        // --- 2. LE JOUEUR ---
-        this.player = this.physics.add.sprite(100, 300, "img_perso").setDepth(8);
-        // On enlève les limites du monde (sinon il va taper le bord droit de l'écran et s'arrêter)
-        this.player.setCollideWorldBounds(false);
+        this.player = this.physics.add.sprite(300, 300, "img_perso").setDepth(8);
+        this.player.setCollideWorldBounds(true);
+        // Définit les limites du monde (largeur très grande, hauteur fixe)
+        this.physics.world.setBounds(0, 0, Number.MAX_SAFE_INTEGER, 704);
         this.anims.create({
-            key: 'courir', // Le nom de l'animation qu'on appellera plus tard
-            frames: this.anims.generateFrameNumbers('img_perso', {
-                start: 7, // Première image (0)
-                end: 8    // Dernière image (car il y a 9 frames : 0 à 8)
-            }),
-            frameRate: 10, // Vitesse de l'animation (15 images par seconde)
-            repeat: -1     // Répéter à l'infini
+            key: 'courir',
+            frames: this.anims.generateFrameNumbers('img_perso', { start: 5, end: 8 }),
+            frameRate: 10,
+            repeat: -1
         });
-
-        // 2. On lance l'animation tout de suite
         this.player.play('courir');
+        this.player.body.setSize(15, 30);
+        this.player.body.setOffset(15, 45);
 
-        // On réduit la hitbox pour qu'elle colle au corps (on enlève un peu sur les côtés)
-        this.player.body.setSize(25, 45); // Largeur 25, Hauteur 90
-        // On la décale pour qu'elle soit centrée sur le personnage
-        this.player.body.setOffset(10, 35); // Décalage X=10, Y=5
-        // --- 3. DICTIONNAIRE DES MOTIFS DE PIÈCES ---
-        // On utilise des grilles (matrices) avec des 0 et des 1 (0 = vide, 1 = pièce)
         this.motifsPieces = [
-            [ // Motif 1 : Le Bloc rectangulaire
+            [
                 [1, 1, 1, 1, 1, 1, 1],
                 [1, 1, 1, 1, 1, 1, 1]
             ]
         ];
 
-        // --- 4. GROUPES PHYSIQUES (Pièces et Missiles) ---
-        // Groupe pour les pièces (allowGravity: false pour qu'elles flottent en l'air sans tomber)
         this.groupePieces = this.physics.add.group({ allowGravity: false });
-        // Si le joueur touche une pièce, on appelle la fonction collecterPiece
         this.physics.add.overlap(this.player, this.groupePieces, this.collecterPiece, null, this);
 
-        // Groupe pour les missiles
         this.groupeMissiles = this.physics.add.group({ allowGravity: false });
-        // Si le joueur touche un missile, on appelle la fonction toucherMissile (Game Over)
         this.physics.add.overlap(this.player, this.groupeMissiles, this.toucherMissile, null, this);
 
-        // --- 5. SYSTÈME DE CHUNKS (Génération aléatoire infinie) ---
-        // On force la map de Quentin pour nos tests actuels
-        this.prochainX = 0; // Le point de départ (en X) du tout premier bloc de la map
-        this.listeMaps = ["map_quentin", "map_niveau2"];
-
-        // Tableau qui mémorise les morceaux de carte affichés pour pouvoir les détruire plus tard
+        this.prochainX = 0;
+        this.listeMaps = ["map_quentin", "map_hassoul", "map_mathis"];
         this.chunksActifs = [];
 
-        // On génère 2 morceaux d'avance pour que le joueur ait un sol en commençant
+        this.ajouterChunk();
+        this.ajouterChunk();
+        this.ajouterChunk();
+        this.ajouterChunk();
         this.ajouterChunk();
         this.ajouterChunk();
 
-        // --- 6. LES CONTRÔLES ET LA CAMÉRA ---
-        // On active les flèches du clavier
         this.clavier = this.input.keyboard.createCursorKeys();
-        // La caméra va suivre notre joueur tout au long du niveau
         this.cameras.main.startFollow(this.player);
 
-        // --- 7. LA GRAVITÉ ET L'ITEM D'INVERSION ---
-        this.isGravityInverted = false; // Par défaut, la gravité est normale
-        this.puissanceJetpack = -200;   // Force de la poussée du jetpack
+        this.isGravityInverted = false;
+        this.puissanceJetpack = -200;
         this.player.setGravityY(800);
-        // L'item flotte en l'air à x=800 pour tester l'inversion
+
         this.itemInversion = this.physics.add.sprite(800, 300, "img_item");
         this.itemInversion.body.allowGravity = false;
         this.physics.add.overlap(this.player, this.itemInversion, this.inverserGravite, null, this);
-        this.itemInversion.setDepth(15)
-        // --- 8. LES SCORES ET L'INTERFACE (UI) ---
+        this.itemInversion.setDepth(15);
+
         this.scorePieces = 0;
         this.scoreDistance = 0;
 
-        // setScrollFactor(0) permet au texte de rester collé à l'écran, comme l'ATH d'un jeu
         this.textePieces = this.add.text(16, 16, "Pièces : 0", { fontSize: '24px', fill: '#FFD700' }).setScrollFactor(0).setDepth(10);
         this.texteDistance = this.add.text(16, 50, "Distance : 0 m", { fontSize: '24px', fill: '#FFFFFF' }).setScrollFactor(0).setDepth(10);
-        // --- 9. TIMERS ET SONS ---
-        // Ce timer lance l'attaque de missile toutes les 10 secondes (10000 millisecondes)
+
         this.time.addEvent({
             delay: 10000,
             callback: this.preparerMissile,
@@ -178,184 +116,163 @@ export default class niveau1 extends Phaser.Scene {
             loop: true
         });
 
-        // On prépare les sons (sans les jouer tout de suite)
         this.missileSound = this.sound.add("sin_missile", { volume: 0.5 });
         this.pieceSound = this.sound.add("sin_piece", { volume: 0.5 });
 
-        // --- 10. VARIABLE DE FIN DE JEU ---
-        // Permet de savoir si on doit bloquer les actions du joueur
         this.isGameOver = false;
 
+        this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-        this.spaceKey = this.input.keyboard.addKey(
-            Phaser.Input.Keyboard.KeyCodes.SPACE
-        );
-        // Système de particules pour le jetpack
         this.particlesJetpack = this.add.particles(0, 0, "img_star", {
             speed: { min: 50, max: 100 },
-            angle: { min: 80, max: 100 },  // vers le bas
-            scale: { start: 0.8, end: 0 }, // rétrécit en disparaissant
-            lifespan: 800,                  // durée de vie en ms
-            frequency: 50,                  // une particule toutes les 50ms
-            emitting: false                 // désactivé par défaut
+            angle: { min: 80, max: 100 },
+            scale: { start: 0.8, end: 0 },
+            lifespan: 800,
+            frequency: 50,
+            emitting: false
         }).setDepth(15);
-
-
     }
 
+    // ✅ update() restauré — il avait disparu de ton fichier !
     update() {
-        // =========================================================================
-        // 3. BOUCLE DE JEU (S'exécute en boucle, 60 fois par seconde)
-        // =========================================================================
-
-        // Si le jeu est fini, on bloque l'exécution de tout ce qui suit avec "return" !
         if (this.isGameOver === true) return;
 
-        // --- 1. COURSE AUTOMATIQUE ET CIEL ---
-        // Le joueur avance tout seul à 200 pixels/seconde vers la droite
-        this.player.setVelocityX(200);
-        // Effet de profondeur (Parallax) : le ciel défile un peu plus lentement que la caméra
+        let vitesse = 200 + Math.floor(this.player.x / 500) * 4;
+        this.player.setVelocityX(vitesse);
 
-        // --- 2. GESTION DU JETPACK ---
         if (this.clavier.up.isDown) {
             if (this.isGravityInverted === false) {
                 this.player.setVelocityY(this.puissanceJetpack);
             } else {
                 this.player.setVelocityY(-this.puissanceJetpack);
             }
-            // Étoiles qui sortent sous le perso
-            this.particlesJetpack.emitParticleAt(
-                this.player.x,
-                this.player.y + 20  // légèrement sous le personnage
-            );
+            this.particlesJetpack.emitParticleAt(this.player.x, this.player.y + 20);
         } else {
-            // On arrête quand on relâche la touche
             this.particlesJetpack.stop();
         }
 
-        // --- 3. GÉNÉRATION INFINIE ---
-        // Si la fin de la route approche (à moins de 800 pixels devant), on rajoute un bout de map
-        if (this.prochainX < this.player.x + 800) {
+        if (this.prochainX < this.player.x + 6400) {
             this.ajouterChunk();
         }
 
-        // --- 4. LE GRAND NETTOYAGE (Optimisation mémoire pour ne pas faire ramer le PC) ---
 
-        // A) Nettoyage des anciennes cartes (Chunks)
+
         if (this.chunksActifs.length > 0) {
             let plusVieuxChunk = this.chunksActifs[0];
-            // Si la fin de ce bout de map est passée à 800 pixels DERRIÈRE le joueur...
-            if (plusVieuxChunk.finX < this.player.x - 800) {
-                // On détruit tous les calques visuels qu'il contenait
+            if (plusVieuxChunk.finX < this.player.x - 1600) {
+                plusVieuxChunk.colliders.forEach(collider => {
+                    if (collider) this.physics.world.removeCollider(collider);
+                });
                 plusVieuxChunk.calquesVisuels.forEach(calque => {
                     if (calque) calque.destroy();
                 });
-                plusVieuxChunk.mapData.destroy(); // On détruit les données
-                this.chunksActifs.shift(); // On le retire de notre liste
+                plusVieuxChunk.mapData.destroy();
+                this.chunksActifs.shift();
             }
         }
 
-        // B) Nettoyage des pièces ratées qui sont sorties de l'écran à gauche
         this.groupePieces.getChildren().forEach(piece => {
             if (piece.x < this.player.x - 800) piece.destroy();
         });
 
-        // C) Nettoyage des missiles qui sont sortis de l'écran à gauche
         this.groupeMissiles.getChildren().forEach(missile => {
             if (missile.x < this.cameras.main.scrollX - 100) missile.destroy();
         });
 
-        // --- 5. CALCUL DE LA DISTANCE ---
-        // On soustrait 100 (le point de départ), et on divise par 100 (100 px = 1 mètre environ)
         this.scoreDistance = Math.floor((this.player.x - 100) / 100);
         this.texteDistance.setText("Distance : " + this.scoreDistance + " m");
     }
 
-    // =========================================================================
-    // 4. VOS FONCTIONNALITÉS PERSONNALISÉES
-    // =========================================================================
-
     inverserGravite(player, item) {
-        item.disableBody(true, true); // Fait disparaître l'item
+        item.disableBody(true, true);
         this.isGravityInverted = true;
-        this.player.setFlipY(true); // Met le sprite visuellement la tête en bas
-        this.player.setGravityY(-1000); // Inverse la physique : le joueur tombe vers le plafond
+        this.player.setFlipY(true);
+        this.player.setGravityY(-1000);
 
-        // Chronomètre de 5 secondes (5000 ms) pour revenir à la normale
         this.time.delayedCall(5000, () => {
             this.isGravityInverted = false;
-            this.player.setFlipY(false); // Remet le sprite à l'endroit
-            this.player.setGravityY(800);  // Rétablit la gravité normale
+            this.player.setFlipY(false);
+            this.player.setGravityY(800);
         }, [], this);
     }
 
+    // ✅ Une seule ajouterChunk() qui gère les deux maps
     ajouterChunk() {
-    let mapAleatoire = Phaser.Math.RND.pick(this.listeMaps);
-    let map = this.make.tilemap({ key: mapAleatoire });
+        let mapAleatoire = Phaser.Math.RND.pick(this.listeMaps);
+        let map = this.make.tilemap({ key: mapAleatoire });
 
-    let tousLesTilesets = [];
+        let tousLesTilesets = [];
+        let nomFond, nomSol, nomMortel;
 
-    if (mapAleatoire === "map_quentin") {
-        // ✅ Uniquement les tilesets de lab1.json
-        let ts_leveltileset = map.addTilesetImage("level_tileset", "img_level_tileset");
-        let ts_boutlaser    = map.addTilesetImage("bout_laser", "img_bout_laser");
-        let ts_laser4       = map.addTilesetImage("laser4", "img_laser4");
-        tousLesTilesets = [ts_leveltileset, ts_boutlaser, ts_laser4];
+        let configMortel = { laserWidth: 4, laserHeight: 4 }; // défaut laser fin
 
-    } else if (mapAleatoire === "map_niveau2") {
-        // ✅ Uniquement les tilesets de lab2.json
-        let ts_decorGris   = map.addTilesetImage("tileset_decor_gris", "img_decordmat4");
-        let ts_spike       = map.addTilesetImage("tileset_spike", "img_piquemat1");
-        let ts_decorVert   = map.addTilesetImage("tileset_decor_vert", "img_decordmat2");
-        let ts_laserBleu   = map.addTilesetImage("tileset_laser_bleu", "img_laserbleu");
-        let ts_laserMulti  = map.addTilesetImage("tileset_laser_multi", "img_laserMulticolor");
-        let ts_nucleaire   = map.addTilesetImage("tileset_nucleaire", "img_decordmat1");
-        let ts_tuyauRouge  = map.addTilesetImage("tileset_tuyau_rouge", "img_tuyauxRouge");
-        let ts_tuyauFer    = map.addTilesetImage("tilset_tuyau_fer", "img_tuyauxGris");
-        let ts_pylone      = map.addTilesetImage("tilseset_pylone", "img_pilone");
-        let ts_coffre      = map.addTilesetImage("tileset_coffre", "img_coffre");
-        let ts_laserViolet = map.addTilesetImage("tilset_laser_violet", "img_laserViolet");
-        let ts_flamme      = map.addTilesetImage("tilset_flamme_orange", "img_laserOrange");
-        let ts_mrInc       = map.addTilesetImage("tileset_mrIncredible_summer", "img_etat");
-        let ts_mrIncP10    = map.addTilesetImage("tileset_mrincredible_phase_10", "img_MrIncredibleDivin");
-        let ts_mrIncContent= map.addTilesetImage("tileset_mrIncredible_content", "img_MrIncrediblecontent");
-        let ts_cat         = map.addTilesetImage("tileset_cat", "img_cat");
-        tousLesTilesets = [
-            ts_decorGris, ts_spike, ts_decorVert, ts_laserBleu,
-            ts_laserMulti, ts_nucleaire, ts_tuyauRouge, ts_tuyauFer,
-            ts_pylone, ts_coffre, ts_laserViolet, ts_flamme,
-            ts_mrInc, ts_mrIncP10, ts_mrIncContent, ts_cat
-        ];
-        const noms = [
-        "tileset_decor_gris", "tileset_spike", "tileset_decor_vert",
-        "tileset_laser_bleu", "tileset_laser_multi", "tileset_nucleaire",
-        "tileset_tuyau_rouge", "tilset_tuyau_fer", "tilseset_pylone",
-        "tileset_coffre", "tilset_laser_violet", "tilset_flamme_orange",
-        "tileset_mrIncredible_summer", "tileset_mrincredible_phase_10",
-        "tileset_mrIncredible_content", "tileset_cat"
-    ];
-    
-    }
 
-        // --- CRÉATION DES CALQUES ---
-        let calqueFond = map.createLayer("Background", tousLesTilesets, this.prochainX, 0)?.setDepth(1);
-        let calqueSol = map.createLayer("Obstacle_pas_mortel", tousLesTilesets, this.prochainX, 0)?.setDepth(2);
-        let calqueMortel = map.createLayer("Background_mortel", tousLesTilesets, this.prochainX, 0)?.setDepth(3);
 
-        // --- PHYSIQUE DES OBSTACLES MORTELS (Lasers & Piques) ---
-        // --- PHYSIQUE DES OBSTACLES MORTELS ---
+        if (mapAleatoire === "map_quentin") {
+            let ts_leveltileset = map.addTilesetImage("level_tileset", "img_level_tileset");
+            let ts_boutlaser = map.addTilesetImage("bout laser", "img_bout_laser");
+            let ts_laser4 = map.addTilesetImage("laser4", "img_laser4");
+            tousLesTilesets = [ts_leveltileset, ts_boutlaser, ts_laser4];
+            nomFond = "Background";
+            nomSol = "Obstacle_pas_mortel";
+            nomMortel = "Background_mortel";
+
+        } else if (mapAleatoire === "map_hassoul") {
+            let ts_dungeon = map.addTilesetImage("Dungeon Tile Set2", "img_dungeon");
+            tousLesTilesets = [ts_dungeon];
+
+            // lab2_background_2 affiché sans collision
+            map.createLayer("lab2_background_2", tousLesTilesets, this.prochainX, 0)?.setDepth(4);
+
+            nomFond = "lab2_background";
+            nomSol = "lab2_sol";
+            nomMortel = "lab2_mort";
+        } else if (mapAleatoire === "map_mathis") {
+            let ts_decor_gris = map.addTilesetImage("tileset_decor_gris", "img_decor_gris");
+            let ts_spike = map.addTilesetImage("tileset_spike", "img_spike");
+            let ts_decor_vert = map.addTilesetImage("tileset_decor_vert", "img_decor_vert");
+            let ts_laser_bleu = map.addTilesetImage("tileset_laser_bleu", "img_laser_bleu");
+            let ts_laser_multi = map.addTilesetImage("tileset_laser_multi", "img_laser_multi");
+            let ts_nucleaire = map.addTilesetImage("tileset_nucleaire", "img_nucleaire");
+            let ts_tuyau_rouge = map.addTilesetImage("tileset_tuyau_rouge", "img_tuyau_rouge");
+            let ts_tuyau_fer = map.addTilesetImage("tilset_tuyau_fer", "img_tuyau_fer");
+            let ts_pylone = map.addTilesetImage("tilseset_pylone", "img_pylone");
+            let ts_coffre = map.addTilesetImage("tileset_coffre", "img_coffre");
+            let ts_laser_violet = map.addTilesetImage("tilset_laser_violet", "img_laser_violet");
+            let ts_flamme = map.addTilesetImage("tilset_flamme_orange", "img_flamme_orange");
+            let ts_mrincredible = map.addTilesetImage("tileset_mrIncredible_summer", "img_mrincredible");
+            let ts_mrincredible10 = map.addTilesetImage("tileset_mrincredible_phase_10", "img_mrincredible_10");
+            let ts_cat = map.addTilesetImage("tileset_cat", "img_cat");
+
+            tousLesTilesets = [
+                ts_decor_gris, ts_spike, ts_decor_vert, ts_laser_bleu, ts_laser_multi,
+                ts_nucleaire, ts_tuyau_rouge, ts_tuyau_fer, ts_pylone, ts_coffre,
+                ts_laser_violet, ts_flamme, ts_mrincredible, ts_mrincredible10, ts_cat
+            ];
+
+            nomFond = "Background";
+            nomSol = "Obstacle_pas_mortel";
+            nomMortel = "Background_mortel";
+        }
+
+        let largeurMap = map.widthInPixels;
+        if (!largeurMap || largeurMap === 0) {
+            console.warn("widthInPixels = 0, on force 2000px");
+            largeurMap = 2000;
+        }
+
+        let calqueFond = map.createLayer(nomFond, tousLesTilesets, this.prochainX, 0)?.setDepth(1);
+        let calqueSol = map.createLayer(nomSol, tousLesTilesets, this.prochainX, 0)?.setDepth(2);
+        let calqueMortel = nomMortel ? map.createLayer(nomMortel, tousLesTilesets, this.prochainX, 0)?.setDepth(3) : null;
+
+        let collidersChunk = [];
+
         if (calqueMortel) {
             calqueMortel.setCollisionByExclusion([-1]);
-
-            // ✅ On réduit la hitbox de chaque tuile du calque mortel
             calqueMortel.forEachTile(tile => {
                 if (tile.index !== -1) {
-                    // Le laser est fin → on réduit la largeur de collision à 6px
-                    // et on centre cette hitbox dans la tuile (offset = (largeurTuile - 6) / 2)
-                    tile.setCollisionCallback(null, null); // reset propre
+                    tile.setCollisionCallback(null, null);
                     tile.physics.matterBody = null;
-
-                    // Réduction de la hitbox : largeur 6px centrée, hauteur pleine
                     tile.faceTop = true;
                     tile.faceBottom = true;
                     tile.faceLeft = true;
@@ -363,10 +280,13 @@ export default class niveau1 extends Phaser.Scene {
                 }
             });
 
-            this.physics.add.overlap(
+            let overlapMortel = this.physics.add.overlap(
                 this.player,
                 calqueMortel,
                 () => {
+                    console.log("mort | map=", mapAleatoire,
+                        "| x=", Math.floor(this.player.x),
+                        "| y=", Math.floor(this.player.y));
                     if (!this.isGameOver) {
                         this.isGameOver = true;
                         this.physics.pause();
@@ -375,63 +295,57 @@ export default class niveau1 extends Phaser.Scene {
                         this.time.removeAllEvents();
                         this.afficherGameOver();
                     }
-                }, // ton callback de mort existant
+                },
                 (player, tile) => {
-                    if (tile.index === -1) return false;
-
+                    // Double vérification : index -1 ET pas de texture
+                    if (tile.index === -1 || tile.index === 0) return false;
+                    if (!tile.tileset) return false;
                     let laserWidth = 4;
                     let laserHeight = 4;
-
                     let playerRight = player.x + player.body.width / 2;
                     let playerLeft = player.x - player.body.width / 2;
                     let playerBottom = player.y + player.body.height / 2;
                     let playerTop = player.y - player.body.height / 2;
-
-                    // ✅ tile.pixelX est relatif à la map, 
-                    // il faut ajouter la position mondiale de la tuile
                     let tileWorldX = tile.tilemapLayer.x + tile.pixelX;
                     let tileWorldY = tile.tilemapLayer.y + tile.pixelY;
-
                     let laserLeft = tileWorldX + (tile.width - laserWidth) / 2;
                     let laserRight = laserLeft + laserWidth;
                     let laserTop = tileWorldY + (tile.height - laserHeight) / 2;
                     let laserBottom = laserTop + laserHeight;
-
                     return playerRight > laserLeft && playerLeft < laserRight &&
                         playerBottom > laserTop && playerTop < laserBottom;
                 },
                 this
             );
+            collidersChunk.push(overlapMortel);
         }
 
-        // --- PHYSIQUE DU SOL ---
         if (calqueSol) {
             calqueSol.setCollisionByExclusion([-1], true);
-            this.physics.add.collider(this.player, calqueSol);
+            let colliderSol = this.physics.add.collider(this.player, calqueSol);
+            collidersChunk.push(colliderSol);
         }
 
-        // --- SAUVEGARDE ET GÉNÉRATION ---
         this.chunksActifs.push({
             mapData: map,
             calquesVisuels: [calqueFond, calqueSol, calqueMortel],
-            finX: this.prochainX + map.widthInPixels
+            colliders: collidersChunk,
+            finX: this.prochainX + largeurMap
         });
 
         let hauteurAleatoire = Phaser.Math.Between(100, 400);
         this.genererMotifPieces(this.prochainX + 300, hauteurAleatoire);
 
-        this.prochainX += map.widthInPixels;
+        this.prochainX += largeurMap;
     }
 
     genererMotifPieces(xBase, yBase) {
-        // Choisit un motif de pièces au hasard dans notre dictionnaire (dans le create)
         let motifChoisi = Phaser.Math.RND.pick(this.motifsPieces);
-        let espacement = 35; // L'écart entre chaque pièce
+        let espacement = 35;
 
-        // Lecture de la grille : Ligne par ligne, et Colonne par colonne
         for (let ligne = 0; ligne < motifChoisi.length; ligne++) {
             for (let col = 0; col < motifChoisi[ligne].length; col++) {
-                if (motifChoisi[ligne][col] === 1) { // Si on trouve un 1, on crée une pièce
+                if (motifChoisi[ligne][col] === 1) {
                     let posX = xBase + (col * espacement);
                     let posY = yBase + (ligne * espacement);
                     this.groupePieces.create(posX, posY, "img_piece").setDepth(5).setScale(0.4);
@@ -441,62 +355,50 @@ export default class niveau1 extends Phaser.Scene {
     }
 
     collecterPiece(player, piece) {
-        piece.disableBody(true, true); // Désactive la physique et rend la pièce invisible
+        piece.disableBody(true, true);
         this.scorePieces += 1;
         this.textePieces.setText("Pièces : " + this.scorePieces);
-        // this.pieceSound.play(); // Désactivé si tu n'as pas le fichier son
     }
 
     preparerMissile() {
-        let cibleY = this.player.y; // On cible la hauteur actuelle du joueur
-        // this.missileSound.play(); // Désactivé si tu n'as pas le fichier son
+        let cibleY = this.player.y;
 
-        // Fait apparaître un panneau danger accroché à l'écran (ScrollFactor 0)
         let alerte = this.add.image(750, cibleY, "img_alerte").setScrollFactor(0);
 
-        // Tween = Animation automatique gérée par Phaser
         this.tweens.add({
             targets: alerte,
-            alpha: 0,          // Va de l'opacité 1 (visible) à 0 (invisible)
-            duration: 200,     // En 0.2 secondes
+            alpha: 0,
+            duration: 200,
             ease: 'Linear',
-            yoyo: true,        // Et revient à l'état initial (clignotement)
-            repeat: 5,         // Répète ça 5 fois
+            yoyo: true,
+            repeat: 5,
             onComplete: () => {
-                alerte.destroy(); // Quand le clignotement est fini, on détruit l'alerte
-                this.lancerMissile(cibleY); // Et BOUM, on tire le missile
+                alerte.destroy();
+                this.lancerMissile(cibleY);
             }
         });
     }
 
     lancerMissile(yPosition) {
-        // Le missile apparaît juste en dehors de l'écran, à droite de la caméra
         let spawnX = this.cameras.main.scrollX + 850;
         let missile = this.groupeMissiles.create(spawnX, yPosition, "img_missile");
-        missile.setVelocityX(-400); // Il fonce vers la gauche !
+        missile.setVelocityX(-400);
         missile.setDepth(15);
         missile.body.setSize(40, 20);
         missile.body.setOffset(10, 20);
     }
 
     toucherMissile(player, obstacle) {
-        // 1. On indique que le jeu est fini pour stopper le update()
         this.isGameOver = true;
-
-        // 2. On fige toute la physique du jeu
         this.physics.pause();
-        this.player.setTint(0xff0000); // On colorie le joueur en rouge
+        this.player.setTint(0xff0000);
         this.player.anims.stop();
-
-        // 3. On arrête les événements de temps (fini l'apparition de nouveaux missiles)
         this.time.removeAllEvents();
-
-        // 4. On affiche l'écran de fin
         this.afficherGameOver();
     }
 
     afficherGameOver() {
-        let fondSombre = this.add.rectangle(400, 300, 800, 600, 0x000000, 0.7).setScrollFactor(0).setDepth(20);
+        this.add.rectangle(400, 300, 800, 600, 0x000000, 0.7).setScrollFactor(0).setDepth(20);
 
         this.add.text(400, 150, "GAME OVER", {
             fontSize: '64px', fill: '#ff0000', fontStyle: 'bold'
@@ -524,10 +426,7 @@ export default class niveau1 extends Phaser.Scene {
     }
 
     toucherMortel(player, obstacle) {
-        // Si le jeu est déjà fini, on ne fait rien pour éviter les bugs
         if (this.isGameOver === true) return;
-
-        // On déclenche ta fonction de mort existante (celle qui met le perso en rouge)
         this.toucherMissile(player, obstacle);
     }
 }
