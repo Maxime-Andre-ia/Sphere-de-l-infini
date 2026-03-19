@@ -137,7 +137,7 @@ export default class niveau1 extends Phaser.Scene {
     update() {
         if (this.isGameOver === true) return;
 
-        let vitesse = 200 + Math.floor(this.player.x / 500) * 4;
+        let vitesse = 200 + Math.floor(this.player.x / 500) * 2;
         this.player.setVelocityX(vitesse);
 
         if (this.clavier.up.isDown) {
